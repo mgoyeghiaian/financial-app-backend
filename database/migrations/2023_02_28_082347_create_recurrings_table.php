@@ -3,7 +3,6 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-
 return new class extends Migration
 {
     /**
@@ -13,12 +12,12 @@ return new class extends Migration
     {
         Schema::create('recurrings', function (Blueprint $table) {
             $table->id();
-            $table->boolean('type');
+            $table->string('type');
             $table->boolean('isDeleted');
             $table->string('title');
             $table->decimal('amount');
-            $table->datetime('startDate');
-            $table->datetime('endDate');
+            $table->date('startDate');
+            $table->date('endDate');
             $table->unsignedBigInteger('admin_id')->uniqid();
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();

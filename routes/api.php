@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RecurringController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,3 +22,16 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::Post('/admin',[AdminController::class,'addAdmin']);
+
+
+// CRUD For Recurring
+Route::Post('/recurring',[RecurringController::class,'addRecurring']);
+
+Route::Get('/recurring/{id}',[RecurringController::class,'getRecurring']);
+
+Route::Get('/recurring',[RecurringController::class,'getRecurringAll']);
+
+Route::Patch('/recurring/{id}',[RecurringController::class,'editRecurring']);
+
+Route::Delete('/recurring/{id}',[RecurringController::class,'deleteRecurring']);
+

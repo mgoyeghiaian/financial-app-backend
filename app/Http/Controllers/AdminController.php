@@ -14,8 +14,8 @@ $password = $request->input('password');
 //$issuper = $request->isSuper=='off' ? 0 : 1;
 $admin->username=$username;
 $admin->password=$password;
-$admin->isDeleted=$isdeleted;
-$admin->isSuper=$issuper;
+//$admin->isDeleted=$isdeleted;
+//$admin->isSuper=$issuper;
 $admin->save();
 return ; return response()->json([
     'message' => '$username created successfully',

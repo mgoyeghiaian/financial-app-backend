@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('username');
             $table->string('password');
-            $table->boolean('isDeleted');
-            $table->boolean('isSuper');
+          //  $table->boolean('isDeleted');
+         //   $table->boolean('isSuper');
             $table->timestamps();
         });
     }
