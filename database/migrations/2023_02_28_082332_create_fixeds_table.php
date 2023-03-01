@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('fixeds', function (Blueprint $table) {
             $table->id();
-            $table->boolean('type');
+            $table->string('type');
             $table->boolean('isDeleted');
             $table->string('title');
             $table->decimal('amount');
-            $table->datetime('endDate');
+            $table->date('endDate');
             $table->unsignedBigInteger('admin_id')->uniqid();
             $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();

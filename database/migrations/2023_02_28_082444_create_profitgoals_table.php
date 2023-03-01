@@ -15,8 +15,6 @@ return new class extends Migration
             $table->id();
             $table->decimal('netProfit');
             $table->boolean('isDeleted');
-            $table->unsignedBigInteger('admin_id')->uniqid();
-            $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }

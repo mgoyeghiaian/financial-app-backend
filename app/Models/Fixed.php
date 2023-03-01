@@ -8,4 +8,19 @@ use Illuminate\Database\Eloquent\Model;
 class Fixed extends Model
 {
     use HasFactory;
+
+    protected $fillable =[
+        'type',
+        'title',
+        'amount',
+        'isDelete',
+        'endDate',
+    ];
+
+    public function admin(){
+        return $this->belongsTo(Admin::class);
+    }
+
+
+
 }
