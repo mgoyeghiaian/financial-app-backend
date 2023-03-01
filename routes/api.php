@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RecurringController;
 use App\Http\Controllers\ProfitgoalController;
-
-
+use App\Http\Controllers\FixedController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,3 +47,19 @@ Route::Get('/profitgoal',[ProfitgoalController::class,'getProfitgoalAll']);
 Route::Patch('/profitgoal/{id}',[ProfitgoalController::class,'editProfitgoal']);
 
 Route::Delete('/profitgoal/{id}',[ProfitgoalController::class,'deleteProfitgoal']);
+
+// CRUD For fixed
+
+Route::Post('/fixed',[FixedController::class,'addFixed']);
+Route::Get('/fixed/{id}',[FixedController::class,'getFixed']);
+Route::Get('/fixed',[FixedController::class,'getFixedAll']);
+Route::Delete('/fixed/{id}',[FixedController::class,'deleteFixed']);
+Route::Patch('/fixed/{id}',[FixedController::class,'editFixed']);
+
+// CRUD For report
+
+Route::Post('/report',[ReportController::class,'addReport']);
+Route::Get('/report/{id}',[ReportController::class,'getReport']);
+Route::Get('/report',[ReportController::class,'getReportAll']);
+Route::Delete('/report/{id}',[ReportController::class,'deleteReport']);
+Route::Patch('/report/{id}',[ReportController::class,'editReport']);

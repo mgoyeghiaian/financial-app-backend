@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
+            $table->string('type');
+            $table->date('date');
+            $table->boolean('isDeleted');
+            $table->decimal('netIncome');
+            $table->decimal('netExpenses');
             $table->timestamps();
+
         });
     }
 

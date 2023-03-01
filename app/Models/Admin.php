@@ -12,8 +12,8 @@ class Admin extends Model
     protected $fillable = [
         'username',
         'password',
-      //  'isDeleted',
-     //   'isSuper',
+        // 'isDeleted',
+        // 'isSuper',
     ];
 
     public function profitgoal(){
