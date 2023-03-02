@@ -10,8 +10,10 @@ class FixedController extends Controller
 {
 
 
-     public function addFixed(Request $request){
+    //addFixed is not working
 
+     public function addFixed(Request $request){
+     
 
        $fixed= new Fixed;
        $admin_id= $request->input('admin_id');
@@ -21,7 +23,7 @@ class FixedController extends Controller
          $isdeleted= $request->input('isdeleted');
          $amount= $request->input('amount');
          $enddate=$request->input('enddate');
-
+       
        $fixed->title=$title;
        $fixed->endDate=$enddate;
        $fixed->amount=$amount;
@@ -39,55 +41,95 @@ class FixedController extends Controller
 
 
        public function getFixed(Request $request, $id){
-       $fixed= Fixed::where('id',$id)->with(['admin'])->get();
+        try{
+       $fixed= Fixed::where('id',$id)->with(['admin'])->get()->firstOrFail();
+        }catch(\Exception $exception){
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist',
+        ]);
+          }
         return response()->json([
             'message'=> $fixed,
         ]);
     }
+
+
+
+
+    //getFixedAll is not working
 
 
         public function getFixedAll(Request $request){
        $fixed= Fixed::with(['admin'])->get();
-        return response()->json([
+         return response()->json([
             'message'=> $fixed,
         ]);
-    }
+
+       }
+       
+    
 
 
 
 
          public function deleteFixed(Request $request, $id){
        $fixed= Fixed::find($id);
-       $fixed->delete();
+       
+       if ($fixed){
+        $fixed->delete();
+       
         return response()->json([
-            'message'=> 'the fixed transaction is deleted successfully',
+            'message'=> 'The fixed transaction is deleted successfully.',
         ]);
-
+    }else{
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist.',
+        ]);
 
     }
 
+
+    }
+    
 
 
       public function editFixed(Request $request, $id){
-
+       
         $fixed= Fixed::find($id);
         $inputs= $request->except('_method');
+
+              if ($fixed){
         $fixed->update($inputs);
-        return response()->json([
+         return response()->json([
             'message'=> 'Fixed transaction edited successfully',
             'fixed'=> $fixed,
         ]);
-
-
-
-
-
-
-
+    
+    }else{
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist.',
+        ]);
 
     }
 
-
-
-
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
