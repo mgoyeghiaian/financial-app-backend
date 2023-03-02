@@ -15,8 +15,13 @@ use App\Http\Controllers\AdminController;
 |
 */
 
+Route::get('/users', [AdminController::class, 'allUsers']);
+Route::post('/register', [AdminController::class, 'register']);
+Route::post('/login', [AdminController::class, 'login']);
+Route::post('/logout', [AdminController::class, 'logout']);
+Route::put('/users/{id}', [AdminController::class, 'update']);
+Route::delete('/users/{id}', [AdminController::class, 'delete']);
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
-Route::Post('/admin',[AdminController::class,'addAdmin']);
