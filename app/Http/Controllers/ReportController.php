@@ -38,11 +38,20 @@ class ReportController extends Controller
 
 
          public function getReport(Request $request, $id){
-       $report= Report::where('id',$id)->get();
+            try{
+       $report= Report::where('id',$id)->get()->firstOrFail();
+            }catch(\Exception $exception){
+                return response()->json([
+            'message'=> 'Report is not found',
+        ]);
+
+            }
         return response()->json([
             'message'=> $report,
         ]);
     }
+
+    
 
          public function getReportAll(Request $request){
        $report= Report::get();
@@ -65,14 +74,13 @@ class ReportController extends Controller
       public function editReport(Request $request, $id){
        
         $report= Report::find($id);
-        $inputs= $request->except('isdeleted','_method');
-        $report->isdeleted=$request->input('isdeleted');
+        $inputs= $request->except('_method');
+        
         $report->update($inputs);
         return response()->json([
             'message'=> 'Report edited successfully',
             'report'=> $report,
         ]);
-
 
 
 

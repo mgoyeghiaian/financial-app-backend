@@ -71,7 +71,7 @@ class FixedController extends Controller
       public function editFixed(Request $request, $id){
        
         $fixed= Fixed::find($id);
-        $inputs= $request->except('enddate','isdeleted','_method');
+        $inputs= $request->except('_method');
         $fixed->enddate=$request->input('enddate');
         $fixed->isdeleted=$request->input('isdeleted');
         $fixed->update($inputs);

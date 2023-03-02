@@ -11,11 +11,11 @@ class Report extends Model
 
     protected $fillable = [
         
-         'title',
+         'type',
          'date',
-         'netIncome',
-         'netExpenses',
-         'isDelete',
+         'netincome',
+         'netexpenses',
+         'isdelete',
         
        
     ];
