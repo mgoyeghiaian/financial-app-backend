@@ -8,12 +8,13 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    protected function respondWithToken($token){
+    protected function respondWithToken($token, $userType){
         $expiration = Auth::guard('admin')->factory()->getTTL() * 60; // TTL in seconds
         $response = response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $expiration,
+            'user_type' => $userType,
         ]);
         $response->withCookie($this->setTokenCookie($token));
         return $response;
@@ -25,15 +26,16 @@ class AdminController extends Controller
     }
     
     public function register(Request $request){
-        $type = $request->type;
-        $user=Admin::create([
-            'name' =>$request->name,
-            'password' =>$request->password,
-            'email' =>$request->email,
-            'type'=> $type ? $type : 0,
+        $type = $request->type; 
+        $user = Admin::create([
+            'name' => $request->name,
+            'password' => $request->password,
+            'email' => $request->email,
+            'type' => $type ? $type : 0,
         ]);
-        $token = Auth::guard('admin')->login($user);
-        $response = $this->respondWithToken($token);
+        $token = $user->createToken('authToken-'.$user->id)->plainTextToken;
+        $userType = $user->type; // retrieve the user's type from the database
+        $response = $this->respondWithToken($token, $userType);
         return $response;
     }
 
@@ -43,20 +45,19 @@ class AdminController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $userType = $user->type; // retrieve the user's type from the database
-            $token = $user->createToken('authToken')->accessToken;
-    
-            if($userType == '1') {
-                return response()->json(['message' => 'Success! You will be redirected to the clickable link.']);
-            } else {
-                return response()->json(['access_token' => $token, 'user_type' => $userType]);
-            }
+            $token = $user->createToken('authToken-'.$user->id)->plainTextToken;
+
+            return $this->respondWithToken($token, $userType);
         } else {
             return response()->json(['error' => 'Invalid email or password'], 401);
         }
     }
 
     public function logout(){
-        Auth::guard('admin')->logout();
+        if (auth()->check()) {
+            auth()->user()->tokens()->delete();
+            Auth::guard('admin')->logout();
+        }
         $response = response()->json(['message' => 'Successfully logged out.']);
         $response->withCookie(cookie('token', null, -1, null, 'localhost:8000'));
         return $response;
@@ -81,14 +82,24 @@ class AdminController extends Controller
 
         return response()->json(['message' => 'User updated successfully']);
     }
-
+    
     public function delete($id){
+
         $user = Admin::find($id);
         if ($user) {
+            $user->tokens()->delete();
             $user->delete();
             return response()->json(['message' => 'User deleted successfully.']);
-        } else {
+        } else if(!$user){
             return response()->json(['error' => 'User not found.'], 404);
         }
+        else {
+        return response()->json(['error' => 'Unauthenticated'], 401);
+    }
+}
+    
+
+    protected function redirect(){
+        return "hello world";
     }
 }
