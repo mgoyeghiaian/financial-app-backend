@@ -9,24 +9,24 @@ use App\Models\Admin;
 class ReportController extends Controller
 {
      public function addReport(Request $request){
-     
+
 
        $report= new Report;
-      
-        
+
+
          $type= $request->input('type');
          $date= $request->input('date');
          $isdeleted= $request->input('isdeleted');
          $netincome= $request->input('netincome');
          $netexpenses= $request->input('netexpenses');
-        
-       
+
+
        $report->type=$type;
        $report->isdeleted=$isdeleted;
        $report->date=$date;
        $report->netincome=$netincome;
        $report->netexpenses=$netexpenses;
-     
+
        $report->save();
 
         return response()->json([
@@ -63,10 +63,9 @@ class ReportController extends Controller
 
 
       public function editReport(Request $request, $id){
-       
+
         $report= Report::find($id);
-        $inputs= $request->except('isdeleted','_method');
-        $report->isdeleted=$request->input('isdeleted');
+        $inputs= $request->except('_method');
         $report->update($inputs);
         return response()->json([
             'message'=> 'Report edited successfully',

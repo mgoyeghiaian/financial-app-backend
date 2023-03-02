@@ -13,8 +13,8 @@ class Fixed extends Model
         'type',
         'title',
         'amount',
-        'isDelete',
-        'endDate',
+        'isdeleted',
+        'enddate',
     ];
 
     public function admin(){

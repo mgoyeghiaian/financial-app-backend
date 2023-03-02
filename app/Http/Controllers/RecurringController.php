@@ -53,12 +53,8 @@ public function getRecurringAll(Request $request){
 
 public function editRecurring(Request $request, $id ){
     $recurring = Recurring::find($id);
-    $inputs=$request->except('startdate','enddate','isdeleted','_method');
-    $recurring->startdate = $request->input('startdate');
-    $recurring->enddate = $request->input('enddate');
-    $recurring->isdeleted = $request->input('isdeleted');
+    $inputs=$request->except('_method');
     $recurring->update($inputs);
-
     return  response()->json([
         'message' =>'recurring edited successtully',
         'recurring' =>$recurring,

@@ -10,11 +10,11 @@ class Recurring extends Model
     use HasFactory;
     protected $fillable = [
         'type',
-        'isDelete',
+        'isdeleted',
         'title',
         'amount',
-        'startDate',
-        'endDate',
+        'startdate',
+        'enddate',
     ];
 
     public function admin(){

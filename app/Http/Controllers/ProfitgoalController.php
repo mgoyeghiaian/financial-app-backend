@@ -11,7 +11,7 @@ class ProfitgoalController extends Controller
 {
     public function addProfitgoal(Request $request){
         $profitgoal = new Profitgoal ;
-               $netProfit = $request->input('netProfit');
+               $netProfit = $request->input('netprofit');
                $isdeleted = $request->input('isdeleted');
            $profitgoal->netProfit = $netProfit;
            $profitgoal->isdeleted = $isdeleted;
@@ -43,10 +43,8 @@ public function getProfitgoalAll(Request $request){
 
 public function editProfitgoal(Request $request, $id ){
     $profitgoal = Profitgoal::find($id);
-    $inputs=$request->except('isdeleted','_method');
-    $profitgoal->isdeleted = $request->input('isdeleted');
+    $inputs=$request->except('_method');
     $profitgoal->update($inputs);
-
     return  response()->json([
         'message' =>'Profitgoal edited successtully',
         'Profitgoal' =>$profitgoal,

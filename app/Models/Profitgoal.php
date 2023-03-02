@@ -10,8 +10,8 @@ class Profitgoal extends Model
     use HasFactory;
 
     protected $fillable = [
-        'netProfit',
-        'isDeleted'
+        'netprofit',
+        'isdeleted'
     ];
 
     public function admin(){

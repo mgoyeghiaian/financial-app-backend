@@ -11,7 +11,7 @@ class FixedController extends Controller
 
 
      public function addFixed(Request $request){
-     
+
 
        $fixed= new Fixed;
        $admin_id= $request->input('admin_id');
@@ -21,7 +21,7 @@ class FixedController extends Controller
          $isdeleted= $request->input('isdeleted');
          $amount= $request->input('amount');
          $enddate=$request->input('enddate');
-       
+
        $fixed->title=$title;
        $fixed->endDate=$enddate;
        $fixed->amount=$amount;
@@ -65,21 +65,19 @@ class FixedController extends Controller
 
 
     }
-    
+
 
 
       public function editFixed(Request $request, $id){
-       
+
         $fixed= Fixed::find($id);
-        $inputs= $request->except('enddate','isdeleted','_method');
-        $fixed->enddate=$request->input('enddate');
-        $fixed->isdeleted=$request->input('isdeleted');
+        $inputs= $request->except('_method');
         $fixed->update($inputs);
         return response()->json([
             'message'=> 'Fixed transaction edited successfully',
             'fixed'=> $fixed,
         ]);
-    
+
 
 
 
