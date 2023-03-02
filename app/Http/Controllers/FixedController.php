@@ -10,6 +10,8 @@ class FixedController extends Controller
 {
 
 
+    //addFixed is not working
+
      public function addFixed(Request $request){
      
 
@@ -39,29 +41,52 @@ class FixedController extends Controller
 
 
        public function getFixed(Request $request, $id){
-       $fixed= Fixed::where('id',$id)->with(['admin'])->get();
+        try{
+       $fixed= Fixed::where('id',$id)->with(['admin'])->get()->firstOrFail();
+        }catch(\Exception $exception){
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist',
+        ]);
+          }
         return response()->json([
             'message'=> $fixed,
         ]);
     }
+
+
+
+
+    //getFixedAll is not working
 
 
         public function getFixedAll(Request $request){
        $fixed= Fixed::with(['admin'])->get();
-        return response()->json([
+         return response()->json([
             'message'=> $fixed,
         ]);
-    }
+
+       }
+       
+    
 
 
 
 
          public function deleteFixed(Request $request, $id){
        $fixed= Fixed::find($id);
-       $fixed->delete();
+       
+       if ($fixed){
+        $fixed->delete();
+       
         return response()->json([
-            'message'=> 'the fixed transaction is deleted successfully',
+            'message'=> 'The fixed transaction is deleted successfully.',
         ]);
+    }else{
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist.',
+        ]);
+
+    }
 
 
     }
@@ -72,24 +97,39 @@ class FixedController extends Controller
        
         $fixed= Fixed::find($id);
         $inputs= $request->except('_method');
-        $fixed->enddate=$request->input('enddate');
-        $fixed->isdeleted=$request->input('isdeleted');
+
+              if ($fixed){
         $fixed->update($inputs);
-        return response()->json([
+         return response()->json([
             'message'=> 'Fixed transaction edited successfully',
             'fixed'=> $fixed,
         ]);
     
-
-
-
-
-
-
+    }else{
+        return response()->json([
+            'message'=> 'The fixed transaction does not exist.',
+        ]);
 
     }
 
-
-
-
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

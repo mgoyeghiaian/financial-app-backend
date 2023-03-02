@@ -30,7 +30,7 @@ class ReportController extends Controller
        $report->save();
 
         return response()->json([
-            'message'=> 'Report is created successfully',
+            'message'=> 'Report is created successfully.',
             'Report'=>$report,
         ]);
 
@@ -42,7 +42,7 @@ class ReportController extends Controller
        $report= Report::where('id',$id)->get()->firstOrFail();
             }catch(\Exception $exception){
                 return response()->json([
-            'message'=> 'Report is not found',
+            'message'=> 'Report is not found.',
         ]);
 
             }
@@ -52,40 +52,59 @@ class ReportController extends Controller
     }
 
     
+    //getReportAll is not working
 
          public function getReportAll(Request $request){
+            try{
        $report= Report::get();
+            }catch(\Exception $exception){
+                return response()->json([
+            'message'=> 'There are no reports.',
+        ]);
+            }
         return response()->json([
             'message'=> $report,
         ]);
     }
 
+    
+
       public function deleteReport(Request $request, $id){
        $report= Report::find($id);
-       $report->delete();
+
+      if ($report){
+        $report->delete();
+       
+         return response()->json([
+            'message'=> 'The report is deleted successfully.',
+        ]);
+    }else{
         return response()->json([
-            'message'=> 'The report is deleted successfully',
+            'message'=> 'The report does not exist.',
         ]);
 
+    }
 }
-
-
 
       public function editReport(Request $request, $id){
        
         $report= Report::find($id);
         $inputs= $request->except('_method');
+        if($report){
         
         $report->update($inputs);
         return response()->json([
-            'message'=> 'Report edited successfully',
+            'message'=> 'Report edited successfully.',
             'report'=> $report,
         ]);
-
-
-
-
+    }else{
+         return response()->json([
+            'message'=> 'The report does not exist.',
+        ]);
 
     }
+
+    }
+
 
 }
