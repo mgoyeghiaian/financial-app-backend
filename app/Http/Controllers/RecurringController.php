@@ -31,14 +31,23 @@ class RecurringController extends Controller
            ]);
 }
 
-public function getRecurring(Request $request, $id ){
-    $recurring = Recurring::where('id',$id)->with(['admin'])->get();
+           public function getRecurring(Request $request, $id ){
+              try{
+               $recurring = Recurring::where('id',$id)->with(['admin'])->get()->firstOrFail();
+              }catch(\Exception $exception){
+                return response()->json([
+            'message'=> 'Recurring transaction is not found.',
+            ]);
 
-    return response()->json([
+            }
+
+        return response()->json([
         'message' => $recurring,
-    ]);
+        ]);
 
 }
+
+
 
 public function getRecurringAll(Request $request){
     $recurring = Recurring::with(['admin'])->get();
@@ -54,20 +63,38 @@ public function getRecurringAll(Request $request){
 public function editRecurring(Request $request, $id ){
     $recurring = Recurring::find($id);
     $inputs=$request->except('_method');
+    if ($recurring){
     $recurring->update($inputs);
     return  response()->json([
-        'message' =>'recurring edited successtully',
+        'message' =>'Recurring transaction is edited successtully.',
         'recurring' =>$recurring,
     ]);
 
+    }else{
+         return  response()->json([
+        'message' =>'The recurring transaction does not exist.',
+      
+    ]);
+        
+
     }
+}
+
+
 
     public function deleteRecurring(Request $request, $id){
         $recurring = Recurring::find($id);
+        if ($recurring){
         $recurring->delete();
         return response()->json([
-            'message' =>'recurring deleted successtully',
-            'recurring' =>$recurring,
+            'message' =>'Recurring transaction is deleted successtully.',
+          
         ]);
+    }else{
+        return response()->json([
+            'message' =>'Recurring transaction does not exist.',
+        ]);
+
+    }
     }
 }
