@@ -48,7 +48,7 @@ class AdminController extends Controller
             $token = $user->createToken('authToken-'.$user->id)->plainTextToken;
 
             return $this->respondWithToken($token, $userType);
-        } else {
+        } else { 
             return response()->json(['error' => 'Invalid email or password'], 401);
         }
     }
