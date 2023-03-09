@@ -41,11 +41,14 @@ class AdminController extends Controller
 
     public function login(Request $request)
     {
+        
         $credentials = $request->only('email', 'password');
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
             $userType = $user->type; // retrieve the user's type from the database
             $token = $user->createToken('authToken-'.$user->id)->plainTextToken;
+            // $token = $user->createToken('MyAppToken', ['*'])->accessToken;
+
 
             return $this->respondWithToken($token, $userType);
         } else { 
@@ -58,6 +61,7 @@ class AdminController extends Controller
             auth()->user()->tokens()->delete();
             Auth::guard('admin')->logout();
         }
+
         $response = response()->json(['message' => 'Successfully logged out.']);
         $response->withCookie(cookie('token', null, -1, null, 'localhost:8000'));
         return $response;
