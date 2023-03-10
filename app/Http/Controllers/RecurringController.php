@@ -10,21 +10,24 @@ class RecurringController extends Controller
 {
     public function addRecurring(Request $request){
         $recurring = new Recurring ;
-        $admin_id = $request->input('admin_id');
-               $admin = Admin::find($admin_id);
+        // $admin_id = $request->input('admin_id');
+        //        $admin = Admin::find($admin_id);
                $title = $request->input('title');
                $amount = $request->input('amount');
                $type = $request->input('type');
+               $category = $request->input('category');
                $startdate = $request->input('startdate');
                $enddate = $request->input('enddate');
-               $isdeleted = $request->input('isdeleted');
+            //    $isdeleted = $request->input('isdeleted');
            $recurring->title = $title;
            $recurring->amount = $amount;
            $recurring->type = $type;
+           $recurring->category = $category;
+           
            $recurring->startDate = $startdate;
            $recurring->endDate = $enddate;
-           $recurring->isdeleted = $isdeleted;
-           $recurring->admin()->associate($admin);
+        //    $recurring->isdeleted = $isdeleted;
+        //    $recurring->admin()->associate($admin);
            $recurring->save();
            return response()->json([
                'message'=>$recurring,

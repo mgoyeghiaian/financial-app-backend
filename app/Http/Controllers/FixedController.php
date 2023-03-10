@@ -13,23 +13,25 @@ class FixedController extends Controller
     //addFixed is not working
 
      public function addFixed(Request $request){
-     
 
-       $fixed= new Fixed;
-       $admin_id= $request->input('admin_id');
-         $admin= Admin::find($admin_id);
+       $fixed= new Fixed();
+    //    $admin_id= $request->input('admin_id');
+    //      $admin= Admin::find($admin_id);
+    $type= $request->input('type');
+    $category= $request->input('category');
          $title= $request->input('title');
-         $type= $request->input('type');
-         $isdeleted= $request->input('isdeleted');
+         
+        //  $isdeleted= $request->input('isdeleted');
          $amount= $request->input('amount');
          $enddate=$request->input('enddate');
        
        $fixed->title=$title;
        $fixed->endDate=$enddate;
        $fixed->amount=$amount;
-       $fixed->isdeleted=$isdeleted;
+    //    $fixed->isdeleted=$isdeleted;
        $fixed->type=$type;
-       $fixed->admin()->associate($admin);
+       $fixed->category=$category;
+    //    $fixed->admin()->associate($admin);
        $fixed->save();
 
         return response()->json([
@@ -42,7 +44,7 @@ class FixedController extends Controller
 
        public function getFixed(Request $request, $id){
         try{
-       $fixed= Fixed::where('id',$id)->with(['admin'])->get()->firstOrFail();
+       $fixed= Fixed::where('id',$id)->get()->firstOrFail();
         }catch(\Exception $exception){
         return response()->json([
             'message'=> 'The fixed transaction does not exist',
@@ -60,7 +62,7 @@ class FixedController extends Controller
 
 
         public function getFixedAll(Request $request){
-       $fixed= Fixed::with(['admin'])->get();
+       $fixed= Fixed::get();
          return response()->json([
             'message'=> $fixed,
         ]);
