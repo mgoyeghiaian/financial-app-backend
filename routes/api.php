@@ -18,55 +18,40 @@ use App\Http\Controllers\ReportController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-
 Route::get('/users', [AdminController::class, 'allUsers']);
 Route::post('/register', [AdminController::class, 'register']);
 Route::post('/login', [AdminController::class, 'login']);
 Route::post('/logout', [AdminController::class, 'logout']);
 Route::put('/users/{id}', [AdminController::class, 'update']);
 Route::delete('/users/{id}', [AdminController::class, 'delete']);
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::Post('/admin',[AdminController::class,'addAdmin']);
-
-
 // CRUD For Recurring
 Route::Post('/recurring',[RecurringController::class,'addRecurring']);
-
 Route::Get('/recurring/{id}',[RecurringController::class,'getRecurring']);
-
 Route::Get('/recurring',[RecurringController::class,'getRecurringAll']);
-
 Route::Patch('/recurring/{id}',[RecurringController::class,'editRecurring']);
-
 Route::Delete('/recurring/{id}',[RecurringController::class,'deleteRecurring']);
-
 // CRUD For Profitgoal
 Route::Post('/profitgoal',[ProfitgoalController::class,'addProfitgoal']);
-
 Route::Get('/profitgoal/{id}',[ProfitgoalController::class,'getProfitgoal']);
-
 Route::Get('/profitgoal',[ProfitgoalController::class,'getProfitgoalAll']);
-
+Route::Get('/profitgoalf',[ProfitgoalController::class,'calculateProfit']);
 Route::Patch('/profitgoal/{id}',[ProfitgoalController::class,'editProfitgoal']);
-
 Route::Delete('/profitgoal/{id}',[ProfitgoalController::class,'deleteProfitgoal']);
-
 // CRUD For fixed
-
 Route::Post('/fixed',[FixedController::class,'addFixed']);
 Route::Get('/fixed/{id}',[FixedController::class,'getFixed']);
 Route::Get('/fixed',[FixedController::class,'getFixedAll']);
+Route::Get('/fixedf',[FixedController::class,'getFixedFilter']);
 Route::Delete('/fixed/{id}',[FixedController::class,'deleteFixed']);
 Route::Patch('/fixed/{id}',[FixedController::class,'editFixed']);
-
 // CRUD For report
-
 Route::Post('/report',[ReportController::class,'addReport']);
 Route::Get('/report/{id}',[ReportController::class,'getReport']);
 Route::Get('/report',[ReportController::class,'getReportAll']);
 Route::Delete('/report/{id}',[ReportController::class,'deleteReport']);
 Route::Patch('/report/{id}',[ReportController::class,'editReport']);
+Route::Get('/reportc',[ReportController::class,'calculatereport']);

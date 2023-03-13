@@ -5,30 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Models\Admin;
+use App\Http\Controllers\FixedController;
+use App\Http\Controllers\RecurringController;
 
 class ReportController extends Controller
 {
      public function addReport(Request $request){
 
         //add report is not working
-     
-
        $report= new Report;
-      
-        
          $type= $request->input('type');
          $date= $request->input('date');
          $isdeleted= $request->input('isdeleted');
          $netincome= $request->input('netincome');
          $netexpenses= $request->input('netexpenses');
-        
-       
        $report->type=$type;
        $report->isdeleted=$isdeleted;
        $report->date=$date;
        $report->netincome=$netincome;
        $report->netexpenses=$netexpenses;
-     
+
        $report->save();
 
         return response()->json([
@@ -53,7 +49,7 @@ class ReportController extends Controller
         ]);
     }
 
-    
+
     //getReportAll is not working
 
          public function getReportAll(Request $request){
@@ -69,14 +65,14 @@ class ReportController extends Controller
         ]);
     }
 
-    
+
 
       public function deleteReport(Request $request, $id){
        $report= Report::find($id);
 
       if ($report){
         $report->delete();
-       
+
          return response()->json([
             'message'=> 'The report is deleted successfully.',
         ]);
@@ -89,11 +85,11 @@ class ReportController extends Controller
 }
 
       public function editReport(Request $request, $id){
-       
+
         $report= Report::find($id);
         $inputs= $request->except('_method');
         if($report){
-        
+
         $report->update($inputs);
         return response()->json([
             'message'=> 'Report edited successfully.',
@@ -106,7 +102,11 @@ class ReportController extends Controller
 
     }
 
+
+
+
     }
+
 
 
 }

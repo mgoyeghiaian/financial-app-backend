@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Profitgoal;
 use App\Models\Admin;
-
+use App\Http\Controllers\FixedController;
+use App\Http\Controllers\RecurringController;
+use Illuminate\Support\Facades\Log;
 
 class ProfitgoalController extends Controller
 {
@@ -19,34 +21,41 @@ class ProfitgoalController extends Controller
            return response()->json([
                'message'=>$profitgoal,
            ]);
+
 }
 
 public function getProfitgoal(Request $request, $id ){
     try{
-    $profitgoal = Profitgoal::where('id',$id)->get()->firstOrFail();
-     }catch(\Exception $exception){
-
+        $profitgoal = Profitgoal::where('id', $id)->where('isdeleted', 0)->firstOrFail();
+    } catch(\Exception $exception){
+        return response()->json([
+            'message' => 'the profitgoal is not found.',
+        ]);
+    }
     return response()->json([
-        'message' => 'the profitgoal is not found.',
+        'message' => $profitgoal,
     ]);
 }
-return response()->json([
- 'message' => $profitgoal,
-  ]);
-
-}
-
 
 public function getProfitgoalAll(Request $request){
-    $profitgoal = Profitgoal::get();
+    $start = $request->input('start');
+    $end = $request->input('end');
+    $query = Profitgoal::where('isdeleted', 0);
+    if ($start && $end) {
+        $query->whereBetween('created_at', [$start, $end]);
+    }
+    $profitgoal = $query->get()->map(function ($profitgoal) {
+        $date = date_create($profitgoal->created_at);
+        $profitgoal->month = date_format($date, "M");
+        $profitgoal->year = date_format($date, "Y");
+        $profitgoal->day = date_format($date, "D");
+        return $profitgoal;
+    });
 
     return response()->json([
         'message' => $profitgoal,
     ]);
-
 }
-
-
 
 public function editProfitgoal(Request $request, $id ){
     $profitgoal = Profitgoal::find($id);
@@ -61,28 +70,38 @@ public function editProfitgoal(Request $request, $id ){
     }else{
           return  response()->json([
         'message' =>'The profit goal does not exist.',
-      
+
     ]);
 
     }
-   
+
     }
 
-    public function deleteProfitgoal(Request $request, $id){
-        $profitgoal = Profitgoal::find($id);
-        if ($profitgoal){
-             $profitgoal->delete();
-                 return response()->json([
-            'message' =>'Profitgoal deleted successtully',
-        ]);
+    public function deleteProfitgoal($id)
+    {
+        $profitgoal = Profitgoal::findOrFail($id);
+        $profitgoal->isDeleted = 1;
+        $profitgoal->save();
 
-        }else{
-              return  response()->json([
-        'message' =>'The profit goal does not exist.',
-      
-    ]);
-
-        }
+        return response()->json(['message' => 'Success']);
     }
+
+
+    public function calculateProfit(Request $request)
+    {
+        // Getting The Value Of Fixed Income & Expanded & Result
+        $fixedController = new FixedController();
+        $fixed = $fixedController->calculateProfit();
+
+
+        return response()->json(
+    [     $fixed->original,
+         ]
+    );
+    }
+
+
+
+
 }
 
