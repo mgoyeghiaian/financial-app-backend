@@ -15,6 +15,7 @@ class Fixed extends Model
         'amount',
         'isDeleted',
         'endDate',
+        'category',
     ];
 
     public function admin(){

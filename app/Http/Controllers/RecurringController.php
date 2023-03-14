@@ -10,24 +10,23 @@ class RecurringController extends Controller
 {
     public function addRecurring(Request $request){
         $recurring = new Recurring ;
-        // $admin_id = $request->input('admin_id');
-        //        $admin = Admin::find($admin_id);
+        $admin_id = $request->input('admin_id');
+               $admin = Admin::find($admin_id);
                $title = $request->input('title');
                $amount = $request->input('amount');
                $type = $request->input('type');
                $category = $request->input('category');
                $startdate = $request->input('startdate');
                $enddate = $request->input('enddate');
-            //    $isdeleted = $request->input('isdeleted');
+               $isdeleted = $request->input('isdeleted');
            $recurring->title = $title;
            $recurring->amount = $amount;
            $recurring->type = $type;
            $recurring->category = $category;
-           
            $recurring->startDate = $startdate;
            $recurring->endDate = $enddate;
-        //    $recurring->isdeleted = $isdeleted;
-        //    $recurring->admin()->associate($admin);
+           $recurring->isdeleted = $isdeleted;
+           $recurring->admin()->associate($admin);
            $recurring->save();
            return response()->json([
                'message'=>$recurring,
@@ -76,9 +75,9 @@ public function editRecurring(Request $request, $id ){
     }else{
          return  response()->json([
         'message' =>'The recurring transaction does not exist.',
-      
+
     ]);
-        
+
 
     }
 }
@@ -91,7 +90,7 @@ public function editRecurring(Request $request, $id ){
         $recurring->delete();
         return response()->json([
             'message' =>'Recurring transaction is deleted successtully.',
-          
+
         ]);
     }else{
         return response()->json([
@@ -99,5 +98,41 @@ public function editRecurring(Request $request, $id ){
         ]);
 
     }
+    }
+
+    public function calculateProfit()
+    {
+        $income = Recurring::where('type', "income")->sum('amount');
+        $expenses = Recurring::where('type', "expense")->sum('amount');
+        $RecurringProfit = $income - $expenses;
+
+        return response()->json([
+            "RIncome" => $income,
+            "RExpenses" => $expenses,
+            'RResults' => $RecurringProfit,
+              ]);
+
+    }
+
+
+    public function getRecurringFilter(Request $request){
+        $year = $request->input('year');
+        $month = $request->input('month');
+        $query = Recurring::where('isdeleted', 0);
+        if ($year) {
+            $query->whereYear('enddate', $year);
+            if ($month) {
+                $query->whereMonth('enddate', $month);
+            }
+        }
+        $Recurring = $query->get();
+        $totalIncome = $Recurring->where('type', 'income')->sum('amount');
+        $totalExpenses = $Recurring->where('type', 'expense')->sum('amount');
+        $test = $totalIncome - $totalExpenses;
+        return response()->json([
+            'year' => $year,
+            'month' => $month,
+            'total_amount'=> $test
+        ]);
     }
 }

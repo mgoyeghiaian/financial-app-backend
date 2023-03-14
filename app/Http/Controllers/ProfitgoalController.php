@@ -89,13 +89,15 @@ public function editProfitgoal(Request $request, $id ){
 
     public function calculateProfit(Request $request)
     {
-        // Getting The Value Of Fixed Income & Expanded & Result
         $fixedController = new FixedController();
         $fixed = $fixedController->calculateProfit();
 
+        $recurringController = new RecurringController();
+        $recurring = $recurringController->calculateProfit();
 
         return response()->json(
-    [     $fixed->original,
+    [     $recurring->original,
+    $fixed->original,
          ]
     );
     }

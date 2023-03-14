@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('fixeds', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            // $table->boolean('isDeleted');
+            $table->boolean('isDeleted')->default(false);
             $table->string('category');
             $table->string('title');
             $table->decimal('amount');
             $table->date('endDate');
-            // $table->unsignedBigInteger('admin_id')->uniqid();
-            // $table->foreign('admin_id')->references('id')->on('admins');
+            $table->unsignedBigInteger('admin_id')->uniqid();
+            $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }

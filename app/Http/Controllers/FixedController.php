@@ -21,12 +21,14 @@ class FixedController extends Controller
          $admin= Admin::find($admin_id);
          $title= $request->input('title');
          $type= $request->input('type');
+         $category= $request->input('category');
          $isDeleted= $request->input('isDeleted');
          $amount= $request->input('amount');
-         $endDate=$request->input('endDate');
+         $endDate=$request->input('enddate');
        $fixed->title=$title;
        $fixed->endDate=$endDate;
        $fixed->amount=$amount;
+       $fixed->category=$category;
        $fixed->isDeleted=$isDeleted;
        $fixed->type=$type;
        $fixed->admin()->associate($admin);
@@ -114,11 +116,16 @@ class FixedController extends Controller
 }
 
 
-public function getFixedFilter(Request $request){
-    $year = $request->input('year'); // add this line to get the year input
-    $query = Fixed::where('isdeleted', 0); // add this line to define the query builder
+public function getFixedFilter(Request $request)
+{
+    $year = $request->input('year');
+    $month = $request->input('month');
+    $query = Fixed::where('isdeleted', 0);
     if ($year) {
-        $query->whereYear('created_at', $year);
+        $query->whereYear('enddate', $year);
+        if ($month) {
+            $query->whereMonth('enddate', $month);
+        }
     }
     $fixed = $query->get();
     $totalIncome = $fixed->where('type', 'income')->sum('amount');
@@ -126,25 +133,8 @@ public function getFixedFilter(Request $request){
     $test = $totalIncome - $totalExpenses;
     return response()->json([
         'year' => $year,
-     'total_amount'=> $test ]);
+        'month' => $month,
+        'total_amount'=> $test
+    ]);
 }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

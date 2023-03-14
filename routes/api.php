@@ -32,6 +32,8 @@ Route::Post('/admin',[AdminController::class,'addAdmin']);
 Route::Post('/recurring',[RecurringController::class,'addRecurring']);
 Route::Get('/recurring/{id}',[RecurringController::class,'getRecurring']);
 Route::Get('/recurring',[RecurringController::class,'getRecurringAll']);
+Route::Get('/recurringt',[RecurringController::class,'calculateProfit']);
+Route::Get('/recurringf',[RecurringController::class,'getRecurringFilter']);
 Route::Patch('/recurring/{id}',[RecurringController::class,'editRecurring']);
 Route::Delete('/recurring/{id}',[RecurringController::class,'deleteRecurring']);
 // CRUD For Profitgoal
