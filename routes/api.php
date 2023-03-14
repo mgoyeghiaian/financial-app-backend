@@ -18,16 +18,7 @@ use App\Http\Controllers\ReportController;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
-Route::get('/users', [AdminController::class, 'allUsers']);
-Route::post('/register', [AdminController::class, 'register']);
-Route::post('/login', [AdminController::class, 'login']);
-Route::post('/logout', [AdminController::class, 'logout']);
-Route::put('/users/{id}', [AdminController::class, 'update']);
-Route::delete('/users/{id}', [AdminController::class, 'delete']);
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::Post('/admin',[AdminController::class,'addAdmin']);
+
 // CRUD For Recurring
 Route::Post('/recurring',[RecurringController::class,'addRecurring']);
 Route::Get('/recurring/{id}',[RecurringController::class,'getRecurring']);
@@ -57,3 +48,17 @@ Route::Get('/report',[ReportController::class,'getReportAll']);
 Route::Delete('/report/{id}',[ReportController::class,'deleteReport']);
 Route::Patch('/report/{id}',[ReportController::class,'editReport']);
 Route::Get('/reportc',[ReportController::class,'calculatereport']);
+Route::post('/logout', [AdminController::class, 'logout']);
+Route::post('/login', [AdminController::class, 'login']);
+Route::get('/users', [AdminController::class, 'allUsers']);
+
+Route::group(['middleware' => ['auth:sanctum']], function() {
+    Route::get('/prot/adm', [AdminController::class, 'redirect']);
+    Route::put('/users/{id}', [AdminController::class, 'update']);
+Route::delete('/users/{id}', [AdminController::class, 'delete']);
+Route::post('/register', [AdminController::class, 'register']);
+});
+
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});

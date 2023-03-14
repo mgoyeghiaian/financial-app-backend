@@ -4,7 +4,11 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "content-hash": "faa598fcbe2ee16196fb5c68b9368f5e",
+=======
+    "content-hash": "827ed5b565e62f50b25b48582c17c8b7",
+>>>>>>> raoulb
     "packages": [
         {
             "name": "brick/math",
@@ -1309,6 +1313,7 @@
                 "source": "https://github.com/laravel/framework"
             },
             "time": "2023-02-24T09:57:13+00:00"
+<<<<<<< HEAD
         },
         {
             "name": "laravel/passport",
@@ -1386,6 +1391,8 @@
                 "source": "https://github.com/laravel/passport"
             },
             "time": "2023-02-20T13:43:07+00:00"
+=======
+>>>>>>> raoulb
         },
         {
             "name": "laravel/sanctum",
@@ -2861,6 +2868,7 @@
             "time": "2023-02-08T01:06:31+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "nyholm/psr7",
             "version": "1.5.1",
             "source": {
@@ -3118,6 +3126,17 @@
             },
             "dist": {
                 "type": "zip",
+=======
+            "name": "phpoption/phpoption",
+            "version": "1.9.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/php-option.git",
+                "reference": "dd3a383e599f49777d8b628dadbb90cae435b87e"
+            },
+            "dist": {
+                "type": "zip",
+>>>>>>> raoulb
                 "url": "https://api.github.com/repos/schmittjoh/php-option/zipball/dd3a383e599f49777d8b628dadbb90cae435b87e",
                 "reference": "dd3a383e599f49777d8b628dadbb90cae435b87e",
                 "shasum": ""
@@ -3184,6 +3203,7 @@
             "time": "2023-02-25T19:38:58+00:00"
         },
         {
+<<<<<<< HEAD
             "name": "phpseclib/phpseclib",
             "version": "3.0.18",
             "source": {
@@ -3294,6 +3314,8 @@
             "time": "2022-12-17T18:26:50+00:00"
         },
         {
+=======
+>>>>>>> raoulb
             "name": "psr/clock",
             "version": "1.0.0",
             "source": {

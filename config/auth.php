@@ -2,14 +2,16 @@
 
 return [
 
-
     'defaults' => [
         'guard' => 'api',
         'passwords' => 'admins',
     ],
 
-
     'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
         'api' => [
             'driver' => 'jwt',
             'provider' => 'admins',
@@ -35,8 +37,6 @@ return [
         ],
     ],
 
-
     'password_timeout' => 10800,
 
 ];
-

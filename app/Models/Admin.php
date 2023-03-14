@@ -56,18 +56,5 @@ class Admin extends Authenticatable implements JWTSubject
             $this->attributes['password'] = bcrypt($password);
         }
     }
-
-    public function profitgoal(){
-        return $this->hasOne(Profitgoal::class);
-    }
-
-    public function fixed(){
-        return $this->hasMany(Fixed::class);
-    }
-
-    public function recurring(){
-        return $this->hasMany(Recurring::class);
-    }
-
 }
 
