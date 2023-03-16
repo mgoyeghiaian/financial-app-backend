@@ -22,7 +22,7 @@ class FixedController extends Controller
          $title= $request->input('title');
          $type= $request->input('type');
          $category= $request->input('category');
-         $isDeleted= $request->input('isDeleted');
+         $isDeleted= $request->input('isdeleted');
          $amount= $request->input('amount');
          $endDate=$request->input('enddate');
        $fixed->title=$title;
