@@ -7,7 +7,6 @@ use App\Models\Profitgoal;
 use App\Models\Admin;
 use App\Http\Controllers\FixedController;
 use App\Http\Controllers\RecurringController;
-use Illuminate\Support\Facades\Log;
 
 class ProfitgoalController extends Controller
 {
@@ -23,7 +22,6 @@ class ProfitgoalController extends Controller
            ]);
 
 }
-
 public function getProfitgoal(Request $request, $id ){
     try{
         $profitgoal = Profitgoal::where('id', $id)->where('isdeleted', 0)->firstOrFail();
@@ -36,7 +34,6 @@ public function getProfitgoal(Request $request, $id ){
         'message' => $profitgoal,
     ]);
 }
-
 public function getProfitgoalAll(Request $request){
     $start = $request->input('start');
     $end = $request->input('end');
@@ -56,7 +53,6 @@ public function getProfitgoalAll(Request $request){
         'message' => $profitgoal,
     ]);
 }
-
 public function editProfitgoal(Request $request, $id ){
     $profitgoal = Profitgoal::find($id);
     $inputs=$request->except('_method');
@@ -74,9 +70,7 @@ public function editProfitgoal(Request $request, $id ){
     ]);
 
     }
-
     }
-
     public function deleteProfitgoal($id)
     {
         $profitgoal = Profitgoal::findOrFail($id);
@@ -85,8 +79,6 @@ public function editProfitgoal(Request $request, $id ){
 
         return response()->json(['message' => 'Success']);
     }
-
-
     public function calculateProfit(Request $request)
     {
         $fixedController = new FixedController();

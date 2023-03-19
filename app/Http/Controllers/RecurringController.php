@@ -10,8 +10,6 @@ class RecurringController extends Controller
 {
     public function addRecurring(Request $request){
         $recurring = new Recurring ;
-        $admin_id = $request->input('admin_id');
-               $admin = Admin::find($admin_id);
                $title = $request->input('title');
                $amount = $request->input('amount');
                $type = $request->input('type');
@@ -23,10 +21,9 @@ class RecurringController extends Controller
            $recurring->amount = $amount;
            $recurring->type = $type;
            $recurring->category = $category;
-           $recurring->startDate = $startdate;
+           $recurring->startdate = $startdate;
            $recurring->endDate = $enddate;
            $recurring->isdeleted = $isdeleted;
-           $recurring->admin()->associate($admin);
            $recurring->save();
            return response()->json([
                'message'=>$recurring,
@@ -81,13 +78,12 @@ public function editRecurring(Request $request, $id ){
 
     }
 }
-
-
-
     public function deleteRecurring(Request $request, $id){
         $recurring = Recurring::find($id);
         if ($recurring){
-        $recurring->delete();
+            // $recurring->delete();
+        $recurring->isDeleted = 1;
+        $recurring->save();
         return response()->json([
             'message' =>'Recurring transaction is deleted successtully.',
 
@@ -102,10 +98,9 @@ public function editRecurring(Request $request, $id ){
 
     public function calculateProfit()
     {
-        $income = Recurring::where('type', "income")->sum('amount');
-        $expenses = Recurring::where('type', "expense")->sum('amount');
+        $income = Recurring::where('type', "income")->where('isdeleted', 0)->sum('amount');
+        $expenses = Recurring::where('type', "expense")->where('isdeleted', 0)->sum('amount');
         $RecurringProfit = $income - $expenses;
-
         return response()->json([
             "RIncome" => $income,
             "RExpenses" => $expenses,

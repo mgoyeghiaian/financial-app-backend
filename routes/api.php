@@ -48,6 +48,7 @@ Route::Get('/report',[ReportController::class,'getReportAll']);
 Route::Delete('/report/{id}',[ReportController::class,'deleteReport']);
 Route::Patch('/report/{id}',[ReportController::class,'editReport']);
 Route::Get('/reportc',[ReportController::class,'calculatereport']);
+// CRUD For Login Logut
 Route::post('/logout', [AdminController::class, 'logout']);
 Route::post('/login', [AdminController::class, 'login']);
 Route::get('/users', [AdminController::class, 'allUsers']);
@@ -57,6 +58,8 @@ Route::group(['middleware' => ['auth:sanctum']], function() {
     Route::put('/users/{id}', [AdminController::class, 'update']);
 Route::delete('/users/{id}', [AdminController::class, 'delete']);
 Route::post('/register', [AdminController::class, 'register']);
+
+
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -7,34 +7,28 @@ use App\Models\Report;
 use App\Models\Admin;
 use App\Http\Controllers\FixedController;
 use App\Http\Controllers\RecurringController;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
      public function addReport(Request $request){
-
-        //add report is not working
-       $report= new Report;
-         $type= $request->input('type');
-         $date= $request->input('date');
-         $isdeleted= $request->input('isdeleted');
-         $netincome= $request->input('netincome');
-         $netexpenses= $request->input('netexpenses');
-       $report->type=$type;
-       $report->isdeleted=$isdeleted;
-       $report->date=$date;
-       $report->netincome=$netincome;
-       $report->netexpenses=$netexpenses;
-
+ $report= new Report;
+ $title= $request->input('title');
+ $type= $request->input('type');
+ $category= $request->input('category');
+ $amount= $request->input('amount');
+ $isDeleted = $request->input('isdeleted');
+       $report->title =$title;
+       $report->amount =$amount;
+       $report->type =$type;
+       $report->category =$category;
+       $report->isDeleted =$isDeleted;
        $report->save();
-
         return response()->json([
             'message'=> 'Report is created successfully.',
             'Report'=>$report,
         ]);
-
     }
-
-
          public function getReport(Request $request, $id){
             try{
        $report= Report::where('id',$id)->get()->firstOrFail();
@@ -48,8 +42,6 @@ class ReportController extends Controller
             'message'=> $report,
         ]);
     }
-
-
     //getReportAll is not working
 
          public function getReportAll(Request $request){
@@ -64,8 +56,6 @@ class ReportController extends Controller
             'message'=> $report,
         ]);
     }
-
-
 
       public function deleteReport(Request $request, $id){
        $report= Report::find($id);
@@ -83,7 +73,6 @@ class ReportController extends Controller
 
     }
 }
-
       public function editReport(Request $request, $id){
 
         $report= Report::find($id);
@@ -99,14 +88,6 @@ class ReportController extends Controller
          return response()->json([
             'message'=> 'The report does not exist.',
         ]);
-
     }
-
-
-
-
     }
-
-
-
 }

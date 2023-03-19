@@ -19,8 +19,6 @@ return new class extends Migration
             $table->string('title');
             $table->decimal('amount');
             $table->date('endDate');
-            $table->unsignedBigInteger('admin_id')->uniqid();
-            $table->foreign('admin_id')->references('id')->on('admins');
             $table->timestamps();
         });
     }

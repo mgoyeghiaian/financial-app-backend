@@ -14,11 +14,7 @@ class FixedController extends Controller
     //addFixed is not working
 
      public function addFixed(Request $request){
-
-
        $fixed= new Fixed;
-       $admin_id= $request->input('admin_id');
-         $admin= Admin::find($admin_id);
          $title= $request->input('title');
          $type= $request->input('type');
          $category= $request->input('category');
@@ -31,9 +27,7 @@ class FixedController extends Controller
        $fixed->category=$category;
        $fixed->isDeleted=$isDeleted;
        $fixed->type=$type;
-       $fixed->admin()->associate($admin);
        $fixed->save();
-
         return response()->json([
             'message'=> 'Fixed transaction added successfully',
             'fixed'=> $fixed,
@@ -68,9 +62,9 @@ class FixedController extends Controller
        $fixed= Fixed::find($id);
 
        if ($fixed){
-        $fixed->delete();
-
-        return response()->json([
+        $fixed->isDeleted = 1;
+        $fixed->save();
+                return response()->json([
             'message'=> 'The fixed transaction is deleted successfully.',
         ]);
     }else{
@@ -103,10 +97,9 @@ class FixedController extends Controller
 
     public function calculateProfit()
 {
-    $income = Fixed::where('type', "income")->sum('amount');
-    $expenses = Fixed::where('type', "expense")->sum('amount');
+    $income = Fixed::where('type', "income")->where('isdeleted', 0)->sum('amount');
+    $expenses = Fixed::where('type', "expense")->where('isdeleted', 0)->sum('amount');
     $FixedProfit = $income - $expenses;
-
     return response()->json([
         "FIncome" => $income,
         "FExpenses" => $expenses,

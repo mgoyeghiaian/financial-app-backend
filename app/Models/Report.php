@@ -10,14 +10,11 @@ class Report extends Model
     use HasFactory;
 
     protected $fillable = [
-
-         'type',
-         'date',
-         'netincome',
-         'netexpenses',
-         'isdeleted',
-
-
+        'type',
+        'title',
+        'amount',
+        'isDeleted',
+        'category',
     ];
 
 

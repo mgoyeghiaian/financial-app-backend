@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->string('type');
-            $table->date('date');
-            $table->boolean('isDeleted');
-            $table->decimal('netIncome');
-            $table->decimal('netExpenses');
+            $table->boolean('isDeleted')->default(false);
+            $table->string('category');
+            $table->string('title');
+            $table->decimal('amount');
             $table->timestamps();
-
         });
-    }
+
+}
 
     /**
      * Reverse the migrations.
@@ -29,5 +29,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('reports');
+
     }
 };
